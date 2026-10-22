@@ -5,66 +5,51 @@ import { callLlm } from './services/llm.js';
 
 const TEMPLATE_REASONS = {
   advance_payment: {
-    en: 'Legitimate employers, buyers, and government agencies never ask for advance registration, training, or deposit fees.',
-    hi: 'Asli company ya agency joining ya delivery se pehle kabhi bhi registration ya security deposit nahi maangti.'
+    en: 'Legitimate employers, buyers, and government agencies never ask for advance registration, training, or deposit fees.'
   },
   otp_credentials: {
-    en: 'Banks and official platforms never request OTP, UPI PIN, or CVV. Sharing this will lead to immediate unauthorized fund deductions.',
-    hi: 'Bank ya official authority kabhi bhi aapse OTP ya UPI PIN nahi mangegi. Isse aapka account khali ho sakta hai.'
+    en: 'Banks and official platforms never request OTP, UPI PIN, or CVV. Sharing this will lead to immediate unauthorized fund deductions.'
   },
   urgency_pressure: {
-    en: 'Coercive urgency is designed to panic you into taking hasty actions without independent verification.',
-    hi: 'Jaldbaazi create ki ja rahi hai taaki aap bina soche samjhe turant decision le lein.'
+    en: 'Coercive urgency is designed to panic you into taking hasty actions without independent verification.'
   },
   threat_suspension: {
-    en: 'Threats of account deactivation or legal penalty are psychological hooks to induce panic.',
-    hi: 'Account block ya police action ki fake dhamki dekar darane ka prayas kiya ja raha hai.'
+    en: 'Threats of account deactivation or legal penalty are psychological hooks to induce panic.'
   },
   unrealistic_rewards: {
-    en: 'Unrealistic returns or unsolicited selection for high-paying positions without prior interviews indicate fraud.',
-    hi: 'Bina kisi interview ya application ke badi salary ya lottery ka fake lalach diya gaya hai.'
+    en: 'Unrealistic returns or unsolicited selection for high-paying positions without prior interviews indicate fraud.'
   },
   unofficial_channels: {
-    en: 'Legitimate organizations do not conduct hiring or official business exclusively over Telegram, WhatsApp, or personal email.',
-    hi: 'Asli corporate companies WhatsApp ya Telegram par private chat ke zariye hiring ya banking nahi karti.'
+    en: 'Legitimate organizations do not conduct hiring or official business exclusively over Telegram, WhatsApp, or personal email.'
   },
   impersonation_hook: {
-    en: 'Impersonating recognized financial institutions or courier services while demanding payments or urgent link clicks.',
-    hi: 'Bank ya courier service ke naam par fake call-to-action aur link click karwane ki koshish hai.'
+    en: 'Impersonating recognized financial institutions or courier services while demanding payments or urgent link clicks.'
   },
   prompt_injection: {
-    en: 'Content contains prompt injection keywords attempting to manipulate safety scanning systems.',
-    hi: 'Is content mein safety filters ko bypass karne ki koshish ke patterns mile hain.'
+    en: 'Content contains prompt injection keywords attempting to manipulate safety scanning systems.'
   },
   brand_impersonation_domain: {
-    en: 'Domain name spoofing detected mimicking an official brand to harvest credentials.',
-    hi: 'Yeh domain official brand ki nakal karke login details churane ke liye banaya gaya hai.'
+    en: 'Domain name spoofing detected mimicking an official brand to harvest credentials.'
   },
   typosquatting_domain: {
-    en: 'Domain name closely mimics a trusted institution with minor spelling alterations.',
-    hi: 'Asli website ki spelling thodi si badal kar fake phishing page banaya gaya hai.'
+    en: 'Domain name closely mimics a trusted institution with minor spelling alterations.'
   },
   url_shortener: {
-    en: 'URL shortener masks the real destination server, commonly used to conceal malicious phishing pages.',
-    hi: 'URL shortener asli website ko chhupane ke liye use kiya gaya hai.'
+    en: 'URL shortener masks the real destination server, commonly used to conceal malicious phishing pages.'
   },
   suspicious_tld: {
-    en: 'Disposable low-cost top-level domain frequently associated with automated scam infrastructure.',
-    hi: 'Yeh low-cost domain aksar temporary fraud campaigns mein use hota hai.'
+    en: 'Disposable low-cost top-level domain frequently associated with automated scam infrastructure.'
   },
   excessive_hyphens: {
-    en: 'Hostname contains multiple hyphens typical of phishing domains trying to look like trusted brands.',
-    hi: 'Domain mein bohot saare hyphens hain jo aksar fake websites mein dekhe jaate hain.'
+    en: 'Hostname contains multiple hyphens typical of phishing domains trying to look like trusted brands.'
   },
   deep_subdomain: {
-    en: 'Deeply nested subdomains configured to deceive users into trusting an unauthorized domain.',
-    hi: 'Deep subdomains use karke official website jaisa dikhane ki koshish ki gayi hai.'
+    en: 'Deeply nested subdomains configured to deceive users into trusting an unauthorized domain.'
   }
 };
 
 const CYBERCRIME_ACTION = {
-  en: 'Report fraudulent numbers and links to the national cybercrime helpline (1930) or file a complaint at cybercrime.gov.in.',
-  hi: 'Turant cybercrime helpline 1930 par call karein ya cybercrime.gov.in par formal complaint darj karein.'
+  en: 'Report fraudulent numbers and links to the national cybercrime helpline (1930) or file a complaint at cybercrime.gov.in.'
 };
 
 function getCategoryForScore(score) {
@@ -92,8 +77,7 @@ function cleanPhrases(rawPhrases, content) {
         text: exactText,
         severity: p.severity || 'medium',
         reason: {
-          en: p.reason?.en || 'Suspicious phrasing detected.',
-          hi: p.reason?.hi || 'Suspicious pattern detect hua hai.'
+          en: p.reason?.en || 'Suspicious phrasing detected.'
         },
         start: startIdx,
         end: startIdx + lowerPhrase.length
@@ -179,34 +163,26 @@ export async function processAnalysis({ inputType, content }) {
   let riskCategory = getCategoryForScore(finalScore);
 
   // 6. Summary generation (use LLM summary or rule-only fallback)
-  let summary = { en: '', hi: '' };
+  let summary = { en: '' };
 
   if (llmResult?.summary?.en && !llmUnavailable) {
-    summary = {
-      en: llmResult.summary.en,
-      hi: llmResult.summary.hi || llmResult.summary.en
-    };
+    summary = { en: llmResult.summary.en };
   } else {
-    // Built-in rule-only template summaries (Roman script Hinglish, no Devanagari)
     if (finalScore >= 75) {
       summary = {
-        en: 'Critical risk detected. This content exhibits major scam indicators such as advance fee demands, credential phishing, or coercive threats.',
-        hi: 'Is content mein fraud ke pakke sanket hain. Advance fee demand, KYC block ya credential chori ki koshish ki gayi hai.'
+        en: 'Critical risk detected. This content exhibits major scam indicators such as advance fee demands, credential phishing, or coercive threats.'
       };
     } else if (finalScore >= 50) {
       summary = {
-        en: 'High scam probability detected. Multiple warning signs were identified. Exercise extreme caution and do not follow payment or verification links.',
-        hi: 'Savdhaan rahein. Is message mein fraud hone ke bade sanket mile hain. Kisi bhi payment ya link par bharosa na karein.'
+        en: 'High scam probability detected. Multiple warning signs were identified. Exercise extreme caution and do not follow payment or verification links.'
       };
     } else if (finalScore >= 25) {
       summary = {
-        en: 'Moderate risk observed. The message contains unverified claims or subtle urgency tactics that require independent verification.',
-        hi: 'Kuch baatein suspicious hain. Anjaan sender ki details official channel se verify karein.'
+        en: 'Moderate risk observed. The message contains unverified claims or subtle urgency tactics that require independent verification.'
       };
     } else {
       summary = {
-        en: 'Low risk. No prominent scam patterns or coercive tactics were detected in this content.',
-        hi: 'Yeh message safe lag raha hai. Isme koi fraud pattern ya jaldbaazi ka dabav nahi mila.'
+        en: 'Low risk. No prominent scam patterns or coercive tactics were detected in this content.'
       };
     }
   }
@@ -222,8 +198,7 @@ export async function processAnalysis({ inputType, content }) {
       text: s.matchedText,
       severity: s.severity,
       reason: TEMPLATE_REASONS[s.id] || {
-        en: s.label,
-        hi: 'Is text mein suspicious fraud indicator mila hai.'
+        en: s.label
       }
     }));
   }
@@ -239,8 +214,7 @@ export async function processAnalysis({ inputType, content }) {
     const alreadyCovered = flaggedPhrases.some(p => p.text.toLowerCase().includes(lowerMatched));
     if (!alreadyCovered) {
       const templateReason = TEMPLATE_REASONS[hRule.id] || {
-        en: hRule.label,
-        hi: 'Is phrase mein high severity threat paya gaya hai.'
+        en: hRule.label
       };
       flaggedPhrases.push({
         text: hRule.matchedText,
@@ -258,36 +232,20 @@ export async function processAnalysis({ inputType, content }) {
 
   if (llmResult?.recommendedActions && Array.isArray(llmResult.recommendedActions) && !llmUnavailable && llmResult.recommendedActions.length > 0) {
     recommendedActions = llmResult.recommendedActions.map(a => ({
-      en: a.en || '',
-      hi: a.hi || a.en || ''
+      en: a.en || ''
     }));
   } else {
     // Fallback actions
     if (finalScore >= 50) {
       recommendedActions = [
-        {
-          en: 'Do NOT send any money, scan QR codes, or share OTP/passwords.',
-          hi: 'Koi bhi payment na karein, QR scan na karein aur OTP ya PIN share na karein.'
-        },
-        {
-          en: 'Verify the claims independently via official websites or authorized corporate customer care numbers.',
-          hi: 'Official website par jakar unke verified phone number ya email se confirm karein.'
-        },
-        {
-          en: 'Block the sender and report the number/message as spam.',
-          hi: 'Sender ko turant block karein aur spam report darj karein.'
-        }
+        { en: 'Do NOT send any money, scan QR codes, or share OTP/passwords.' },
+        { en: 'Verify the claims independently via official websites or authorized corporate customer care numbers.' },
+        { en: 'Block the sender and report the number/message as spam.' }
       ];
     } else {
       recommendedActions = [
-        {
-          en: 'Safe to proceed, but always confirm sender identity if communication is unexpected.',
-          hi: 'Aage badh sakte hain, lekin anjaan number ho toh sender ka identity verify kar lein.'
-        },
-        {
-          en: 'Never share OTPs, passwords, or personal credentials over messages or calls.',
-          hi: 'Chahe koi bhi kahe, apna OTP ya password kabhi kisi se share na karein.'
-        }
+        { en: 'Safe to proceed, but always confirm sender identity if communication is unexpected.' },
+        { en: 'Never share OTPs, passwords, or personal credentials over messages or calls.' }
       ];
     }
   }
@@ -295,10 +253,10 @@ export async function processAnalysis({ inputType, content }) {
   // 9. Cybercrime action rule:
   // Only include cybercrime helpline when category is High or Very High
   const isCybercrimeReportable = riskCategory === 'High' || riskCategory === 'Very High';
-  
+
   // Remove any existing cybercrime actions from list first
   recommendedActions = recommendedActions.filter(a => {
-    const text = (a.en + ' ' + a.hi).toLowerCase();
+    const text = (a.en).toLowerCase();
     return !text.includes('1930') && !text.includes('cybercrime.gov.in');
   });
 

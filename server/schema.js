@@ -14,14 +14,12 @@ export const flaggedPhraseSchema = z.object({
   text: z.string(),
   severity: z.enum(['high', 'medium', 'low']),
   reason: z.object({
-    en: z.string(),
-    hi: z.string()
+    en: z.string()
   })
 });
 
 export const recommendedActionSchema = z.object({
-  en: z.string(),
-  hi: z.string()
+  en: z.string()
 });
 
 export const urlAnalysisSchema = z.object({
@@ -35,8 +33,7 @@ export const analyzeResponseSchema = z.object({
   riskScore: z.number().int().min(0).max(100),
   riskCategory: z.enum(['Low', 'Moderate', 'High', 'Very High']),
   summary: z.object({
-    en: z.string(),
-    hi: z.string()
+    en: z.string()
   }),
   flaggedPhrases: z.array(flaggedPhraseSchema),
   recommendedActions: z.array(recommendedActionSchema),
@@ -48,23 +45,20 @@ export const llmResponseSchema = z.object({
   riskScore: z.coerce.number().min(0).max(100),
   riskCategory: z.string().optional(),
   summary: z.object({
-    en: z.string(),
-    hi: z.string()
+    en: z.string()
   }),
   flaggedPhrases: z.array(
     z.object({
       text: z.string(),
       severity: z.enum(['high', 'medium', 'low']).catch('medium'),
       reason: z.object({
-        en: z.string(),
-        hi: z.string()
+        en: z.string()
       })
     })
   ).default([]),
   recommendedActions: z.array(
     z.object({
-      en: z.string(),
-      hi: z.string()
+      en: z.string()
     })
   ).default([]),
   urlAnalysis: z.object({
