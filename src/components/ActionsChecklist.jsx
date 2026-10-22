@@ -80,7 +80,7 @@ export function ActionsChecklist({
 
       <div className="space-y-2.5">
         {recommendedActions.map((action, idx) => {
-          const actionText = action?.[language] || action?.en || '';
+          const actionText = typeof action === 'string' ? action : (action?.en || '');
           const isChecked = !!checkedItems[idx];
           const IconComponent = getActionIcon(actionText, idx);
 

@@ -172,7 +172,9 @@ export function HighlightedMessage({
 
           const style = getSeverityStyle(seg.phrase.severity, activePhraseIndex === seg.index || pinnedIndex === seg.index);
           const isInteracted = hoveredIndex === seg.index || pinnedIndex === seg.index || activePhraseIndex === seg.index;
-          const reasonText = seg.phrase.reason?.[language] || seg.phrase.reason?.en || '';
+          const reasonText = typeof seg.phrase.reason === 'string' 
+            ? seg.phrase.reason 
+            : (seg.phrase.reason?.en || '');
 
           return (
             <span key={i} className="relative inline-block my-0.5">

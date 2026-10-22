@@ -70,7 +70,9 @@ export function ExplanationList({
           const config = getSeverityBadge(phrase.severity);
           const IconComponent = config.icon;
           const isActive = activePhraseIndex === idx;
-          const explanation = phrase.reason?.[language] || phrase.reason?.en || '';
+          const explanation = typeof phrase.reason === 'string' 
+            ? phrase.reason 
+            : (phrase.reason?.en || '');
 
           return (
             <div

@@ -22,12 +22,11 @@ import { ReportCard } from './components/ReportCard';
 import { LearnMoreStrip } from './components/LearnMoreStrip';
 import { Footer } from './components/Footer';
 
-import { translations } from './data/translations';
+import { t } from './data/translations';
 import { SAMPLE_TEXTS } from './data/mockData';
 import { analyzeContent } from './services/analyzer';
 
 export default function App() {
-  const [language, setLanguage] = useState('en'); // 'en' | 'hi'
   const [inputText, setInputText] = useState(SAMPLE_TEXTS.job);
   const [inputType, setInputType] = useState('job'); // 'message' | 'job' | 'url'
   
@@ -39,13 +38,6 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState('');
 
   const resultsRef = useRef(null);
-
-  const t = translations[language];
-
-  // Language switcher
-  const handleToggleLanguage = (lang) => {
-    setLanguage(lang);
-  };
 
   // Sample selector
   const handleSelectSample = (sampleKey) => {
@@ -105,12 +97,22 @@ export default function App() {
   const handleCopyReport = () => {
     if (!analysisResult) return;
 
-    const summaryText = analysisResult.summary?.[language] || analysisResult.summary?.en || '';
+    const summaryText = typeof analysisResult.summary === 'string'
+      ? analysisResult.summary
+      : (analysisResult.summary?.en || '');
+
     const flaggedList = (analysisResult.flaggedPhrases || [])
-      .map((p, i) => `[${i + 1}] "${p.text}" (${p.severity.toUpperCase()}): ${p.reason?.[language] || p.reason?.en}`)
+      .map((p, i) => {
+        const reason = typeof p.reason === 'string' ? p.reason : (p.reason?.en || '');
+        return `[${i + 1}] "${p.text}" (${p.severity.toUpperCase()}): ${reason}`;
+      })
       .join('\n');
+
     const actionsList = (analysisResult.recommendedActions || [])
-      .map((a, i) => `${i + 1}. ${a[language] || a.en}`)
+      .map((a, i) => {
+        const actionText = typeof a === 'string' ? a : (a?.en || '');
+        return `${i + 1}. ${actionText}`;
+      })
       .join('\n');
 
     const report = `--- SCAMOUFLAGE ANALYSIS REPORT ---
@@ -140,6 +142,10 @@ Scamouflage: Unmask what's hiding in plain sight.`;
     setTimeout(() => setToastMessage(''), 3000);
   };
 
+  const currentSummary = analysisResult
+    ? (typeof analysisResult.summary === 'string' ? analysisResult.summary : (analysisResult.summary?.en || ''))
+    : '';
+
   return (
     <div className="min-h-screen flex flex-col bg-[#080d1a] text-slate-100 cyber-grid">
       {/* Toast Notification */}
@@ -154,11 +160,7 @@ Scamouflage: Unmask what's hiding in plain sight.`;
       )}
 
       {/* 1. Header */}
-      <Header 
-        language={language} 
-        onToggleLanguage={handleToggleLanguage} 
-        t={t} 
-      />
+      <Header t={t} />
 
       {/* Main Content Area */}
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 py-4">
@@ -264,7 +266,7 @@ Scamouflage: Unmask what's hiding in plain sight.`;
                     </div>
 
                     <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
-                      {analysisResult.summary?.[language] || analysisResult.summary?.en}
+                      {currentSummary}
                     </p>
                   </div>
 
@@ -285,7 +287,6 @@ Scamouflage: Unmask what's hiding in plain sight.`;
             <HighlightedMessage
               originalText={analyzedText}
               flaggedPhrases={analysisResult.flaggedPhrases}
-              language={language}
               onSelectPhrase={(idx) => setActivePhraseIndex(idx)}
               activePhraseIndex={activePhraseIndex}
               t={t}
@@ -294,7 +295,6 @@ Scamouflage: Unmask what's hiding in plain sight.`;
             {/* Why This Looks Suspicious Breakdown */}
             <ExplanationList
               flaggedPhrases={analysisResult.flaggedPhrases}
-              language={language}
               activePhraseIndex={activePhraseIndex}
               onSelectPhrase={(idx) => setActivePhraseIndex(idx)}
               t={t}
@@ -303,7 +303,6 @@ Scamouflage: Unmask what's hiding in plain sight.`;
             {/* What You Should Do Checklist */}
             <ActionsChecklist
               recommendedActions={analysisResult.recommendedActions}
-              language={language}
               t={t}
             />
 

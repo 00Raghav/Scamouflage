@@ -1,4 +1,5 @@
-// Bilingual translations for English (EN) and Hinglish (HI)
+// Application UI strings and labels (English)
+
 export const translations = {
   en: {
     appTitle: "Scamouflage",
@@ -103,109 +104,7 @@ export const translations = {
     ],
     privacyBadge: "Privacy First: Client-safe analysis. Zero telemetry retention.",
     taglineBottom: "Scamouflage — Unmask what's hiding in plain sight."
-  },
-  hi: {
-    appTitle: "Scamouflage",
-    tagline: "Unmask what's hiding in plain sight.",
-    subtitle: "AI-powered scam detection platform: Online fraud, fake job offers, aur phishing links se bachiye.",
-    noStorageNotice: "Kisi account ki zaroorat nahi. Aapka message analyze hota hai par store nahi hota.",
-    tabs: {
-      message: "Suspicious Message",
-      job: "Job Offer",
-      url: "Web Link / URL"
-    },
-    samplePillsLabel: "Sample scams try karein:",
-    samples: {
-      job: "Fake job offer",
-      bank: "Bank phishing",
-      url: "Suspicious link",
-      genuine: "Genuine message"
-    },
-    textareaPlaceholder: "Yahan suspicious message, job offer, SMS, WhatsApp text ya link paste karein...",
-    analyzeBtn: "Scam Check Karein",
-    scanningText: "Warning signs scan ho rahe hain...",
-    scanningSubtext: "Psychological pressure tactics, fee demands aur domain safety check ki ja rahi hai",
-    clearBtn: "Clear Karein",
-    characterCount: "characters",
-    errorTitle: "Analysis Failed",
-    errorMessage: "Kuch gadbad hui, kripya dobara try karein.",
-    retryBtn: "Dobara Try Karein",
-    riskAssessment: "Risk Assessment",
-    resultsTitle: "Scam Analysis Report",
-    riskCategories: {
-      low: "Low Risk (Surakshit)",
-      moderate: "Moderate Risk (Savdhaan)",
-      high: "High Risk (Khatarnaak)",
-      veryHigh: "Very High Risk (Bada Fraud)"
-    },
-    scoreOutOf: "Threat Score",
-    summaryTitle: "Summary (Sankshep)",
-    highlightedTitle: "Suspicious Phrases Highlighted",
-    highlightedSubtitle: "Kisi bhi highlighted text par hover ya tap karke scam ka reason jaanein.",
-    noFlagsClean: "Is text mein koi suspicious pattern ya coercive phrase nahi mila.",
-    clickMarkerTip: "Numbered badge par click karke direct breakdown par jayein.",
-    whySuspiciousTitle: "Yeh Suspicious Kyun Hai?",
-    whySuspiciousSubtitle: "Message mein use ki gayi fraud techniques ka pura analysis:",
-    severityLabels: {
-      high: "High Severity",
-      medium: "Medium Severity",
-      low: "Low Severity",
-      safe: "Safe Indicator"
-    },
-    whatToDoTitle: "Aapko Kya Karna Chahiye?",
-    whatToDoSubtitle: "In safety steps ko dhyan se follow karein aur tick karte jayein:",
-    completedText: "Steps complete hue",
-    allDone: "Saare safety steps ho gaye! Alert rahein.",
-    urlAnalysisTitle: "Deep Link & Domain Check",
-    urlAnalysisSubtitle: "Web address aur domain infrastructure ki technical janch.",
-    domainLabel: "Extracted Domain",
-    lookalikeLabel: "Kiski Copy (Lookalike)",
-    shortenerLabel: "URL Shortener Detected",
-    threatDbLabel: "Threat Database Status",
-    threatDbValues: {
-      flagged: "Flagged (Blacklist mein hai)",
-      not_flagged: "Not Flagged (Filhaal clean)",
-      unavailable: "Lookup Unavailable"
-    },
-    urlNotice: "Dhyan dein: 'Not flagged' ka matlab safe nahi hota. Naye phishing domains pehle 24-48 ghante kisi blacklist mein nahi aate.",
-    yes: "Haan",
-    no: "Nahi",
-    noneDetected: "Koi copy nahi (Original domain hai)",
-    reportTitle: "Indian Cybercrime Reporting & Action",
-    reportSubtitle: "Agar aapne paise bhej diye hain ya details share ki hain, toh bina deri kiye report karein.",
-    helplineTitle: "National Cyber Helpline",
-    helplineDesc: "Financial fraud hone par golden hours ke andar turant 1930 dial karein.",
-    callNow: "1930 Call Karein",
-    copyNumber: "1930 Copy Karein",
-    portalTitle: "National Cybercrime Portal",
-    portalDesc: "cybercrime.gov.in par formal online complaint darj karein.",
-    visitPortal: "cybercrime.gov.in Kholein",
-    evidenceTitle: "Yeh saboot sambhal kar rakhein:",
-    evidenceList: [
-      "Sender ke phone number, WhatsApp profile aur chat ke screenshots le lein.",
-      "Agar paise kat gaye hain toh bank transaction ID / UTR number save karein.",
-      "Bank ya telecom SMS ke sender headers (jaise VK-SBIINP) delete na karein."
-    ],
-    analyzeAnother: "Dusra Message Check Karein",
-    copyReport: "Report Copy Karein",
-    reportCopied: "Report clipboard par copy ho gayi!",
-    disclaimer: "Scamouflage ek safety assistant hai, koi guarantee nahi. Low score ka matlab 100% surakshit nahi hota. Hamesha official bank, company ya government portal se verify karein.",
-    learnMoreTitle: "Cyber Defense Tips (Jaruri Jaankari)",
-    tips: [
-      {
-        title: "Khabardaar: OTP Kabhi Share Na Karein",
-        desc: "Bank, delivery boy ya koi bhi official kabhi aapse OTP, UPI PIN ya card ka CVV nahi mangega."
-      },
-      {
-        title: "Asli Jobs Kabhi Paise Nahi Mangti",
-        desc: "Genuine company kabhi joining se pehle registration fee, uniform deposit ya Telegram task karne ko nahi kehti."
-      },
-      {
-        title: "Click Karne Se Pehle Link Check Karein",
-        desc: "Hamesha domain ki spelling dekhein. Scammers fake website banate hain jaise 'sbi-update.xyz' ya 'tatamotors-jobs.site'."
-      }
-    ],
-    privacyBadge: "Privacy First: Aapka data bilkul store nahi hota. 100% private analysis.",
-    taglineBottom: "Scamouflage — Unmask what's hiding in plain sight."
   }
 };
+
+export const t = translations.en;

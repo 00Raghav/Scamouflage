@@ -1,7 +1,7 @@
 import React from 'react';
-import { ShieldAlert, Languages, Sparkles } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 
-export function Header({ language, onToggleLanguage, t }) {
+export function Header({ t }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-[#080d1a]/85 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
@@ -47,38 +47,12 @@ export function Header({ language, onToggleLanguage, t }) {
           </div>
         </div>
 
-        {/* Right controls: Language Toggle */}
-        <div className="flex items-center gap-3">
-          <div 
-            className="flex items-center bg-slate-900/90 border border-slate-700/80 rounded-full p-1 shadow-inner"
-            role="group"
-            aria-label="Language selection"
-          >
-            <button
-              type="button"
-              onClick={() => onToggleLanguage('en')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-teal-400 ${
-                language === 'en'
-                  ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-              aria-pressed={language === 'en'}
-            >
-              <span>English</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => onToggleLanguage('hi')}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 focus:outline-none focus:ring-2 focus:ring-teal-400 ${
-                language === 'hi'
-                  ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-slate-950 shadow-md font-bold'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-              aria-pressed={language === 'hi'}
-            >
-              <Languages className="w-3.5 h-3.5" />
-              <span>Hinglish</span>
-            </button>
+        {/* Right status indicator */}
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs font-semibold text-slate-300 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
+            <span className="hidden sm:inline text-slate-400">Status:</span>
+            <span className="text-teal-300">Live Protection</span>
           </div>
         </div>
       </div>
