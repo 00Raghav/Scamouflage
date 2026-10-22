@@ -20,14 +20,34 @@ import { SAMPLE_TEXTS, MOCK_RESPONSES } from '../data/mockData';
  * }
  */
 export async function analyzeContent(text, inputType = 'message') {
-  // Simulate network round-trip delay for realistic scanning feel
-  await new Promise((resolve) => setTimeout(resolve, 1400));
-
   if (!text || text.trim().length === 0) {
     throw new Error('Please enter text or a URL to analyze.');
   }
 
   const cleanText = text.trim();
+  const normalizedType = inputType === 'job' ? 'job_offer' : inputType;
+
+  // Attempt live backend call first (POST /api/analyze)
+  try {
+    const backendUrl = import.meta.env?.VITE_BACKEND_URL || 'http://localhost:5000';
+    const res = await fetch(`${backendUrl}/api/analyze`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ inputType: normalizedType, content: cleanText }),
+      signal: AbortSignal.timeout(8000)
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (err) {
+    // Backend offline or unreachable, fall back to client mock simulation
+  }
+
+  // Simulate network round-trip delay for realistic scanning feel
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+
 
   // 1. Check exact or high-similarity match with sample datasets
   if (cleanText.includes("selected for a remote job paying") || cleanText.includes("registration fee")) {
