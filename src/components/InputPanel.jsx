@@ -26,8 +26,28 @@ export function InputPanel({
 }) {
   const textareaRef = useRef(null);
 
+  const dynamicPlaceholders = {
+    message: "Paste the suspicious message, SMS, WhatsApp chat, or email here...",
+    job: "Paste the suspicious job offer, salary claim, employment email, or offer letter here...",
+    url: "Paste the suspicious website link, URL, or shortened domain here (e.g. https://...)..."
+  };
+
   const handleClear = () => {
     setInputText('');
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  };
+
+  const handleTabChange = (type) => {
+    setInputType(type);
+    if (type === 'message') {
+      setInputText(SAMPLE_TEXTS.message || SAMPLE_TEXTS.bank);
+    } else if (type === 'job') {
+      setInputText(SAMPLE_TEXTS.job);
+    } else if (type === 'url') {
+      setInputText(SAMPLE_TEXTS.url);
+    }
     if (textareaRef.current) {
       textareaRef.current.focus();
     }
@@ -111,7 +131,7 @@ export function InputPanel({
                 type="button"
                 role="tab"
                 aria-selected={inputType === 'message'}
-                onClick={() => setInputType('message')}
+                onClick={() => handleTabChange('message')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-150 ${
                   inputType === 'message'
                     ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40 font-semibold shadow-sm'
@@ -126,7 +146,7 @@ export function InputPanel({
                 type="button"
                 role="tab"
                 aria-selected={inputType === 'job'}
-                onClick={() => setInputType('job')}
+                onClick={() => handleTabChange('job')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-150 ${
                   inputType === 'job'
                     ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40 font-semibold shadow-sm'
@@ -141,7 +161,7 @@ export function InputPanel({
                 type="button"
                 role="tab"
                 aria-selected={inputType === 'url'}
-                onClick={() => setInputType('url')}
+                onClick={() => handleTabChange('url')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-150 ${
                   inputType === 'url'
                     ? 'bg-teal-500/20 text-teal-300 border border-teal-500/40 font-semibold shadow-sm'
@@ -174,7 +194,7 @@ export function InputPanel({
               id="scam-input-field"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder={t.textareaPlaceholder}
+              placeholder={dynamicPlaceholders[inputType] || t.textareaPlaceholder}
               rows={5}
               aria-label="Paste suspicious message, job offer, or link"
               className="w-full bg-slate-950/70 border border-slate-700/80 rounded-xl p-3.5 sm:p-4 text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition-all font-mono text-xs sm:text-sm resize-y leading-relaxed"

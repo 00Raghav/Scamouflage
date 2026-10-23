@@ -1,6 +1,7 @@
 // Mock datasets conforming to the Scamouflage API Response format (English)
 
 export const SAMPLE_TEXTS = {
+  message: "Dear Customer, your SBI YONO account will be blocked today due to pending KYC. Click immediately to update PAN: http://sbi-kyc-verification.top/update",
   job: "Congratulations! You have been selected for a remote job paying ₹80,000 per month. Pay a ₹1,500 registration fee immediately to secure your position.",
   bank: "Dear Customer, your SBI YONO account will be blocked today due to pending KYC. Click immediately to update PAN: http://sbi-kyc-verification.top/update",
   url: "https://sbi-secure-login.xyz/portal/verify-aadhaar-pan",

@@ -27,8 +27,8 @@ import { SAMPLE_TEXTS } from './data/mockData';
 import { analyzeContent } from './services/analyzer';
 
 export default function App() {
-  const [inputText, setInputText] = useState(SAMPLE_TEXTS.job);
-  const [inputType, setInputType] = useState('job'); // 'message' | 'job' | 'url'
+  const [inputText, setInputText] = useState(SAMPLE_TEXTS.message);
+  const [inputType, setInputType] = useState('message'); // 'message' | 'job' | 'url'
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -43,6 +43,9 @@ export default function App() {
   const handleSelectSample = (sampleKey) => {
     const text = SAMPLE_TEXTS[sampleKey] || '';
     setInputText(text);
+    if (sampleKey === 'job') setInputType('job');
+    else if (sampleKey === 'url') setInputType('url');
+    else setInputType('message');
     setError(null);
   };
 
